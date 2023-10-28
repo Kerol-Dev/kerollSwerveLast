@@ -1,7 +1,6 @@
 package frc.robot;
 
-
-import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.SwerveJoystickCmd;
@@ -11,7 +10,7 @@ public class RobotContainer {
 
     private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
 
-    private final Joystick driverJoytick = new Joystick(OIConstants.kDriverControllerPort);
+    private final XboxController driverJoytick = new XboxController(OIConstants.kDriverControllerPort);
 
     public RobotContainer() {
         swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(

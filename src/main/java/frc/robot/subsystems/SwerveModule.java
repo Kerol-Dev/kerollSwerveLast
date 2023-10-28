@@ -4,9 +4,10 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import frc.robot.Conversions;
@@ -20,7 +21,7 @@ public class SwerveModule {
 
     private final AbsoluteEncoder turningEncoder;
 
-    private final PIDController turningPidController;
+    private final SparkMaxPIDController turningPidController;
 
     public double angleOffset;
 
@@ -41,8 +42,16 @@ public class SwerveModule {
         turningEncoder.setPositionConversionFactor(ModuleConstants.kTurningEncoderRot2Rad);
         turningEncoder.setVelocityConversionFactor(ModuleConstants.kTurningEncoderRPM2RadPerSec);
 
-        turningPidController = new PIDController(ModuleConstants.kPTurning, 0, 0);
-        turningPidController.enableContinuousInput(-Math.PI, Math.PI);
+        turningPidController = turningMotor.getPIDController();
+        
+        // Set the PID gains for the turning motor. Note these are example gains, and you
+    // may need to tune them for your own robot!
+    turningPidController.setP(ModuleConstants.kTurningP);
+    turningPidController.setI(ModuleConstants.kTurningI);
+    turningPidController.setD(ModuleConstants.kTurningD);
+    turningPidController.setFF(ModuleConstants.kTurningFF);
+    turningPidController.setOutputRange(ModuleConstants.kTurningMinOutput,
+        ModuleConstants.kTurningMaxOutput);
 
         resetEncoders();
     }
@@ -79,7 +88,7 @@ public class SwerveModule {
         }
         state = SwerveModuleState.optimize(state, getState().angle);
         driveMotor.set(ControlMode.PercentOutput, state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
-        turningMotor.set(turningPidController.calculate(getTurningPosition(), state.angle.getRadians()));
+        turningPidController.setReference(state.angle.getRadians(), ControlType.kPosition);
     }
 
     public void stop() {
