@@ -15,16 +15,16 @@ public class RobotContainer {
     public RobotContainer() {
         swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
                 swerveSubsystem,
-                () -> -driverJoytick.getRawAxis(OIConstants.kDriverYAxis),
-                () -> driverJoytick.getRawAxis(OIConstants.kDriverXAxis),
-                () -> driverJoytick.getRawAxis(OIConstants.kDriverRotAxis),
+                () -> -driverJoytick.getLeftY() / 1.4f,
+                () -> driverJoytick.getLeftX() / 1.4f,
+                () -> driverJoytick.getRightX() / 1.4f,
                 () -> false));
 
         configureButtonBindings();
     }
 
     private void configureButtonBindings() {
-        
+
     }
 
     public Command getAutonomousCommand() {

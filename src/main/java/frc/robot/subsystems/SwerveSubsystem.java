@@ -43,7 +43,6 @@ public class SwerveSubsystem extends SubsystemBase {
 
     private final Pigeon2 gyro = new Pigeon2(7);
 
-
     public SwerveSubsystem() {
         SmartDashboard.putNumber("Front Left Offset", frontLeft.angleOffset);
         SmartDashboard.putNumber("Rear Left Offset", backLeft.angleOffset);
@@ -68,24 +67,23 @@ public class SwerveSubsystem extends SubsystemBase {
         gyro.setYaw(0);
     }
 
-    public void smartDashboardPeriodic()
-    {
-       frontLeft.angleOffset = SmartDashboard.getNumber("Front Left Offset", 0);
-       frontRight.angleOffset = SmartDashboard.getNumber("Front Right Offset", 0);
-       backLeft.angleOffset = SmartDashboard.getNumber("Rear Left Offset", 0);
-       backRight.angleOffset = SmartDashboard.getNumber("Rear Right Offset", 0);
+    public void smartDashboardPeriodic() {
+        frontLeft.angleOffset = SmartDashboard.getNumber("Front Left Offset", 0);
+        frontRight.angleOffset = SmartDashboard.getNumber("Front Right Offset", 0);
+        backLeft.angleOffset = SmartDashboard.getNumber("Rear Left Offset", 0);
+        backRight.angleOffset = SmartDashboard.getNumber("Rear Right Offset", 0);
 
-       SmartDashboard.putNumber("Gyro Angle", getHeading());
+        SmartDashboard.putNumber("Gyro Angle", getHeading());
 
-       SmartDashboard.putNumber("Front Right Angle", frontRight.getTurningPosition() + frontRight.angleOffset);
-       SmartDashboard.putNumber("Front Left Angle", frontLeft.getTurningPosition() + frontLeft.angleOffset);
-       SmartDashboard.putNumber("Rear Right Angle", backRight.getTurningPosition() + backRight.angleOffset);
-       SmartDashboard.putNumber("Rear Left Angle", backLeft.getTurningPosition() + backLeft.angleOffset);
+        SmartDashboard.putNumber("Front Right Angle", frontRight.getTurningPosition() + frontRight.angleOffset);
+        SmartDashboard.putNumber("Front Left Angle", frontLeft.getTurningPosition() + frontLeft.angleOffset);
+        SmartDashboard.putNumber("Rear Right Angle", backRight.getTurningPosition() + backRight.angleOffset);
+        SmartDashboard.putNumber("Rear Left Angle", backLeft.getTurningPosition() + backLeft.angleOffset);
 
-       frontLeft.driveMotor.setInverted(SmartDashboard.getBoolean("Front Left Drive Inverted", false));
-       frontRight.driveMotor.setInverted(SmartDashboard.getBoolean("Front Right Drive Inverted", false));
-       backLeft.driveMotor.setInverted(SmartDashboard.getBoolean("Rear Left Drive Inverted", false));
-       backRight.driveMotor.setInverted(SmartDashboard.getBoolean("Rear Right Drive Inverted", false));
+        frontLeft.driveMotor.setInverted(SmartDashboard.getBoolean("Front Left Drive Inverted", false));
+        frontRight.driveMotor.setInverted(SmartDashboard.getBoolean("Front Right Drive Inverted", false));
+        backLeft.driveMotor.setInverted(SmartDashboard.getBoolean("Rear Left Drive Inverted", false));
+        backRight.driveMotor.setInverted(SmartDashboard.getBoolean("Rear Right Drive Inverted", false));
     }
 
     public double getHeading() {
@@ -96,10 +94,9 @@ public class SwerveSubsystem extends SubsystemBase {
         return Rotation2d.fromDegrees(getHeading());
     }
 
-
     @Override
     public void periodic() {
-       smartDashboardPeriodic();
+        smartDashboardPeriodic();
     }
 
     public void stopModules() {
