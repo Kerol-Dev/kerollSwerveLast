@@ -77,10 +77,10 @@ public class SwerveSubsystem extends SubsystemBase {
 
        SmartDashboard.putNumber("Gyro Angle", getHeading());
 
-       SmartDashboard.putNumber("Front Right Angle", frontRight.getTurningPosition());
-       SmartDashboard.putNumber("Front Left Angle", frontLeft.getTurningPosition());
-       SmartDashboard.putNumber("Rear Right Angle", backRight.getTurningPosition());
-       SmartDashboard.putNumber("Rear Left Angle", backLeft.getTurningPosition());
+       SmartDashboard.putNumber("Front Right Angle", frontRight.getTurningPosition() + frontRight.angleOffset);
+       SmartDashboard.putNumber("Front Left Angle", frontLeft.getTurningPosition() + frontLeft.angleOffset);
+       SmartDashboard.putNumber("Rear Right Angle", backRight.getTurningPosition() + backRight.angleOffset);
+       SmartDashboard.putNumber("Rear Left Angle", backLeft.getTurningPosition() + backLeft.angleOffset);
 
        frontLeft.driveMotor.setInverted(SmartDashboard.getBoolean("Front Left Drive Inverted", false));
        frontRight.driveMotor.setInverted(SmartDashboard.getBoolean("Front Right Drive Inverted", false));
