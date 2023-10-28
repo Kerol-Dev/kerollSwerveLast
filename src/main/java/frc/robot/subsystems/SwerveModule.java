@@ -23,7 +23,7 @@ public class SwerveModule {
 
     private final SparkMaxPIDController turningPidController;
 
-    public double angleOffset;
+    public double angleOfffset;
 
     public SwerveModule(int driveMotorId, int turningMotorId, boolean driveMotorReversed, boolean turningMotorReversed,
             double absoluteEncoderOffset, boolean absoluteEncoderReversed) {
@@ -35,7 +35,7 @@ public class SwerveModule {
 
         turningEncoder = turningMotor.getAbsoluteEncoder(Type.kDutyCycle);
 
-        angleOffset = absoluteEncoderOffset;
+        angleOfffset = absoluteEncoderOffset;
 
         turningEncoder.setInverted(absoluteEncoderReversed);
 
@@ -81,7 +81,7 @@ public class SwerveModule {
 
     public SwerveModuleState getState() {
         return new SwerveModuleState(getDriveVelocity(),
-                new Rotation2d(getTurningPosition()).plus(Rotation2d.fromDegrees(angleOffset)));
+                new Rotation2d(getTurningPosition()));
     }
 
     public void setDesiredState(SwerveModuleState state) {
@@ -89,10 +89,9 @@ public class SwerveModule {
             stop();
             return;
         }
-        state = SwerveModuleState.optimize(state, getState().angle);
         driveMotor.set(ControlMode.PercentOutput,
                 state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
-        turningPidController.setReference(state.angle.getRadians(), ControlType.kPosition);
+        turningPidController.setReference(state.angle.getRadians() - angleOfffset, ControlType.kPosition);
     }
 
     public void stop() {
